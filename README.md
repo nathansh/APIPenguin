@@ -31,7 +31,9 @@ This PHP class is a handly little tool for making API widgets like Twitter, Flic
 The class supports xml and json, and will try to identify which one is being requested, but sometimes you'll need to set that manually using the data_type property before running the pull_data method.
 
 ## Caching
-The data returned from the api call is cached in a /cache directory (you don't need to create it yourself). The default is that the cache lasts for an hour. If you need to you can set the cache_time property to something more frequent, but for the majority of situations once an hour is sufficient. 
+The data returned from the api call is cached in a /cache directory (you don't need to create it yourself). If your cache folder isn't created automatically you'll need to make your working directory writable.
+
+The default is that the cache lasts for an hour. If you need to you can set the cache_time property to something more frequent, but for the majority of situations once an hour is sufficient. 
 
 ## OAuth
 Unfortunately you'll need some bigger guns for an API requiring a complicated OAuth situation at the moment.
