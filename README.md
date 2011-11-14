@@ -19,6 +19,8 @@ This PHP class is a handly little tool for making API widgets like Twitter, Flic
 					
 ### Usage example:
 
+	require_once "class-api_widget_data.php";
+
 	$twitter = new API_widget_data;
 	$twitter->api_url = "https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=false&screen_name=twitterapi&count=1";
 	$twitter->pull_data();
