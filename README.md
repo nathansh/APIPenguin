@@ -1,6 +1,6 @@
 # API Widget Data Class
 	
-Although there's a virtually limitless number of things you can do with API services, I find that simple widgets with data from such services is Twitter, Flickr, Instagram, LastFM, etc are extremely commmon. The groundwork for all of these types of widgets is the same too: make an api call using curl, cache your data, and return a data object. This class does that work, returning an object that you can use to make your widget with.
+Although there's a virtually limitless number of things you can do with API services, I find that simple widgets with data from such services is Twitter, Flickr, Instagram, LastFM, etc are extremely commmon. The groundwork for all of these types of widgets is the same too: make an api call using curl, cache your data, and return a data object. This class does that work, returning an xml or json object that you can use to make your widget with.
 
 ## USAGE
 
@@ -27,3 +27,6 @@ Although there's a virtually limitless number of things you can do with API serv
 ## Data Types
 
 The class supports xml and json, and will try to identify which one is being requested, but sometimes you'll need to set that manually using the data_type property before running the pull_data method.
+
+## Caching
+The data returned from the api call is cached in a /cache directory (you don't need to create it yourself). The default is that the cache lasts for an hour. If you need to you can set the cache_time property to something more frequent, but for the majority of situations once an hour is sufficient. 
