@@ -6,35 +6,8 @@
 		Created: November, 14th, 2011
 		Written for PHP version: 5.3.6
 		
-		== USAGE ==
-		
-		Properties:
-			- cache_dir
-				Location where the cache is stored
-			- cache_file
-				Name of cache file. If using multiple instances, set a unique cache file name.
-				Default is the domain name of the api call.
-			- cache_time
-				Defaults to check api hourly.
-			- api_url *required
-				The actual api request url
-			- api_data
-				The data object returned by the url request
-			- data_type
-				If an xml or json data type isn't detected, you can manually set it
-				
-		Methods:
-			- pull_data()
-				Make API request and return data object
-			- print_data()
-				Simply does a print_r with <pre> tags. Usefull for exploring your data object.
-					
-		Usage example:
-			$twitter = new API_widget_data;
-			$twitter->api_url = "https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=false&screen_name=twitterapi&count=1";
-			$twitter->pull_data();
-			$twitter->print_data();
-			
+		For usage instructions see README.md
+
 	*/
 
 
