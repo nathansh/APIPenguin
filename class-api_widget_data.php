@@ -46,14 +46,39 @@ class API_widget_data {
 	public $api_url = '';
 	public $api_data;
 	public $data_type;
-
-	function API_widget_data() {
-
-	}
-
 	
-	function pull_data() {
-	
+	private $args;
+
+	function API_widget_data($args = "") {
+		
+		if ( $args ) {
+		
+			$this->args = $args;
+			
+			if ( isset($this->args["api_url"]) ) {	
+				$this->api_url = $this->args["api_url"];
+			}
+			
+			if ( isset($this->args["cache_dir"]) ) {
+				$this->cache_dir = $this->args["cache_dir"];
+			}
+			
+			if ( isset($this->args["cache_file"]) ) {
+				$this->cache_file = $this->args["cache_file"];
+			}
+			
+			if ( isset($this->args["cache_time"]) ) {
+				$this->cache_time = $this->args["cache_time"];
+			}
+			
+			if ( isset($this->args["data_type"]) ) {
+				$this->data_type = $this->args["data_type"];
+			}			
+			
+		}
+		
+		if ( $this->api_url !== '' ) {
+			
 		$working_directory = dirname(__FILE__);
 		$cache_path = $working_directory . "/" . $this->cache_dir;
 
@@ -112,7 +137,13 @@ class API_widget_data {
 			$this->api_data = "<p>That api url doesn't seem to be working. I know, bummer right? We probably just don't know what type of data is being returned. Try setting the data_type property to xml or json.</p>";
 		}
 	
-	} // data()
+		return $this->api_data;
+	
+ 		} else {
+			echo "<p>You need to provide an API url using the api_url property.</p>";
+		}
+		
+	} // API_widget_data()
 	
 	
 	function print_data() {

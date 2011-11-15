@@ -2,29 +2,35 @@
 	
 This PHP class is a handly little tool for making API widgets like Twitter, Flickr, etc. Although there's a virtually limitless number of things you can do with API services, I find that simple widgets are extremely commmon. The groundwork for all of them is usually the same too: make an api call using curl, cache your data, and return a data object. This class does that work, returning an xml or json object that you can use to make your widget with.
 
-## USAGE
+## Usage
 
-### Properties:
+To use this class, simply create a new instance and pass in an argument list. The only required argument is the api_url. 
+
+### Example
+
+	require_once "class-api_widget_data.php";
+
+	$twitter = new API_widget_data(array(
+		"api_url" => "https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=false&screen_name=twitterapi&count=1",
+		));
+
+Your $twitter variable now contains the data from your api call. If you want to print out the data to find what you need you can use the print_data() method.
+	
+	$twitter->print_data();
+
+The following other properties can also be used in your property list.
+
+### Properties
 
 * *api_url* *required - The actual api request url
-* *api_data* - The data object returned by the url request
 * *cache_dir* - Location where the cache is stored
 * *cache_file* - Name of cache file. If using multiple instances, set a unique cache file name. Default is the domain name of the api call.
 * *cache_time* - Defaults to check api hourly.
 * *data_type* - If an xml or json data type isn't detected, you can manually set it
 				
-### Methods:
-* *pull_data()* - Make API request and return data object
+### Methods
 * *print_data()* - Simply does a print_r with pre tags. Usefull for exploring your data object.
 					
-### Usage example:
-
-	require_once "class-api_widget_data.php";
-
-	$twitter = new API_widget_data;
-	$twitter->api_url = "https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=false&screen_name=twitterapi&count=1";
-	$twitter->pull_data();
-	$twitter_data = $twitter->api_data;
 
 ## Data Types
 
