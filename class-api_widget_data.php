@@ -19,7 +19,15 @@ class API_widget_data {
 	public $api_url = '';
 	public $api_data;
 	public $data_type;
+	public $twitter = array(
+		"number_of_tweets" => 3,
+		"display_tweets" => TRUE,
+		"username" => "",
+		"clickable_links" => TRUE,
+		"twitter_link" => "&rarr;"
+		);
 	
+	private $api_data_contents;
 	private $args;
 
 	function API_widget_data($args = "") {
@@ -28,26 +36,24 @@ class API_widget_data {
 		
 			$this->args = $args;
 			
-			if ( isset($this->args["api_url"]) ) {	
-				$this->api_url = $this->args["api_url"];
-			}
+			$this->check_arg("api_url");
+			$this->check_arg("cache_dir");
+			$this->check_arg("cache_file");
+			$this->check_arg("cache_time");
+			$this->check_arg("data_type");
 			
-			if ( isset($this->args["cache_dir"]) ) {
-				$this->cache_dir = $this->args["cache_dir"];
-			}
-			
-			if ( isset($this->args["cache_file"]) ) {
-				$this->cache_file = $this->args["cache_file"];
-			}
-			
-			if ( isset($this->args["cache_time"]) ) {
-				$this->cache_time = $this->args["cache_time"];
-			}
-			
-			if ( isset($this->args["data_type"]) ) {
-				$this->data_type = $this->args["data_type"];
-			}			
-			
+			if ( isset($this->args["twitter"]) && $this->api_url == '' ) {
+				$this->twitter = array_merge($this->twitter, $this->args["twitter"]);
+				
+				if ( $this->twitter["username"] == !"" ) {
+					$twitter_api_url = "https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=false&screen_name=" . $this->twitter["username"] . "&count=" . $this->twitter["number_of_tweets"];
+					$this->api_url = $twitter_api_url;
+					$this->cache_file = "twitter." . $this->twitter["username"];
+					
+				} else {
+					echo "<p>If you'd like a Twitter stream you need to provide your username. See README for more info.</p>";
+				}
+			}						
 		}
 		
 		if ( $this->api_url !== '' ) {
@@ -93,27 +99,33 @@ class API_widget_data {
 		$cache_time_dif = @(time() - filemtime($cache_file));
 		if (file_exists($cache_file) && $cache_time_dif < $this->cache_time && file_get_contents($cache_file) != '') {
 			if ( $this->data_type == "json" ) {
-				$api_data_contents = file_get_contents($cache_file);
+				$this->api_data_contents = file_get_contents($cache_file);
 			}
 		} else {
-			$api_data_contents = $this->curl_get_contents($this->api_url);
-			file_put_contents($cache_file, $api_data_contents);
+			$this->api_data_contents = $this->curl_get_contents($this->api_url);
+			file_put_contents($cache_file, $this->api_data_contents);
 		}
 		
 		
 		// Return data
 		if ( $this->data_type == "json" ) {
-			$this->api_data = json_decode($api_data_contents);
+			$this->api_data = json_decode($this->api_data_contents);
 		} elseif ( $this->data_type == "xml" ) {
 			$this->api_data = simplexml_load_file($cache_file);
 		} else {
 			$this->api_data = "<p>That api url doesn't seem to be working. I know, bummer right? We probably just don't know what type of data is being returned. Try setting the data_type property to xml or json.</p>";
 		}
+
+		if ( isset($this->args["twitter"]) && $this->twitter["display_tweets"] ) {
+			$this->display_tweets();
+			}			
 	
 		return $this->api_data;
-	
+		
  		} else {
-			echo "<p>You need to provide an API url using the api_url property.</p>";
+			if ( $this->args["twitter"] == "" ) {
+				echo "<p>You need to provide an API url using the api_url property.</p>";
+			}
 		}
 		
 	} // API_widget_data()
@@ -124,7 +136,55 @@ class API_widget_data {
 			print_r($this->api_data);
 		echo "</pre>";
 	}
+	
+	
+	private function check_arg($arg) {
+		if ( isset($this->args[$arg]) ) {
+			$this->$arg = $this->args[$arg];
+		}
+	}
+	
+	
+	private function display_tweets() {
+		echo '<ul class="tweet_list">';
+
+		foreach ( $this->api_data as $twitter ) {
+			$tweet = $twitter->text;
+			$date = $twitter->created_at;
+			$date = date("F jS", strtotime($date));
+			$id = $twitter->id;
+			$tweet_url = "https://twitter.com/#!/" . $this->twitter["username"] . "/status/" . $id;
 		
+			echo '<li class="tweet"><ul>';
+				echo '<li class="tweet_text">';
+					
+					if ( $this->twitter["clickable_links"] ) {
+						$tweet = $this->twitterify($tweet);
+					}
+					
+					if ( $this->twitter["twitter_link"] ) {
+						if ( $this->twitter["twitter_link"] == 1 ) $this->twitter["twitter_link"] = "&rarr;"; 
+						$tweet .= ' <a href="' . $tweet_url . '" class="twitter_link">' . $this->twitter["twitter_link"] . '</a>';
+					}
+					
+					echo $tweet;
+				echo '</li>';
+				echo '<li class="tweet_date">' . $date . '</li>';
+			echo '</ul></li>';
+		}
+
+		echo '</ul>';
+	}
+	
+	
+	function twitterify($ret) {
+	  $ret = preg_replace("#(^|[\n ])([\w]+?://[\w]+[^ \"\n\r\t< ]*)#", "\\1<a href=\"\\2\" target=\"_blank\">\\2</a>", $ret);
+	  $ret = preg_replace("#(^|[\n ])((www|ftp)\.[^ \"\t\n\r< ]*)#", "\\1<a href=\"http://\\2\" target=\"_blank\">\\2</a>", $ret);
+	  $ret = preg_replace("/@(\w+)/", "<a href=\"http://www.twitter.com/\\1\" target=\"_blank\">@\\1</a>", $ret);
+	  $ret = preg_replace("/#(\w+)/", "<a href=\"http://search.twitter.com/search?q=\\1\" target=\"_blank\">#\\1</a>", $ret);
+	return $ret;
+	}
+	
 	
 	function curl_get_contents($url) {
 		$ch = curl_init();

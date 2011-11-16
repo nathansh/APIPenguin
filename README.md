@@ -27,9 +27,39 @@ The following other properties can also be used in your property list.
 * *cache_file* - Name of cache file. If using multiple instances, set a unique cache file name. Default is the domain name of the api call.
 * *cache_time* - Defaults to check api hourly.
 * *data_type* - If an xml or json data type isn't detected, you can manually set it
+
+Default values:
+	"cache_dir" => "cache",
+	"cache_time"" => "3600",
 				
 ### Methods
 * *print_data()* - Simply does a print_r with pre tags. Usefull for exploring your data object.
+
+## Twitter
+I've found that the most frequent use of an api call for a widget is for a Twitter widget. You can pass in an a "twitter" argument as an array of options for twitter to streamline this process. Tweets are printed in a list by default, or you can just return the data and use it in the same way with normal usage.
+
+Example:
+
+	require_once "class-api_widget_data.php";
+	
+	$twitter_feed = new API_widget_data(array(
+			"twitter" => array(
+				"username" => "twitterapi",
+				"number_of_tweets" => 1
+			)
+
+Available arguments with default values:
+
+	$twitter = array(
+		"number_of_tweets" => 3,
+		"display_tweets" => TRUE,
+		"clickable_links" => TRUE,
+		"twitter_link" => "&rarr;"
+		)
+
+*twitter_link* - true, false, "link text".
+
+The only required argument is "username"
 					
 
 ## Data Types
