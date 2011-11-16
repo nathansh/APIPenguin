@@ -1,8 +1,8 @@
 <?php
 
-	/* API Widget Data Class
+	/* APIzr
 	
-		Written by: Nathan Shubert-Harbison
+		Written by: Nathan Shubert-Harbison, LiFT Studios
 		Created: November, 14th, 2011
 		Written for PHP version: 5.3.6
 		
@@ -11,7 +11,7 @@
 	*/
 
 
-class API_widget_data {
+class APIzr {
 
 	public $cache_dir = "cache";
 	public $cache_file;
@@ -30,7 +30,7 @@ class API_widget_data {
 	private $api_data_contents;
 	private $args;
 
-	function API_widget_data($args = "") {
+	function APIzr($args = "") {
 		
 		if ( $args ) {
 		

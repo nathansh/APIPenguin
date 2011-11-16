@@ -1,4 +1,4 @@
-# API Widget Data Class
+# APIzr
 	
 This PHP class is a handly little tool for making API widgets like Twitter, Flickr, etc. Although there's a virtually limitless number of things you can do with API services, I find that simple widgets are extremely commmon. The groundwork for all of them is usually the same too: make an api call using curl, cache your data, and return a data object. This class does that work, returning an xml or json object that you can use to make your widget with.
 
@@ -8,9 +8,9 @@ To use this class, simply create a new instance and pass in an argument list. Th
 
 ### Example
 
-	require_once "class-api_widget_data.php";
+	require_once "apizr.php";
 
-	$twitter = new API_widget_data(array(
+	$twitter = new APIzr(array(
 		"api_url" => "https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=false&screen_name=twitterapi&count=1",
 		));
 
@@ -40,9 +40,9 @@ I've found that the most frequent use of an api call for a widget is for a Twitt
 
 Example:
 
-	require_once "class-api_widget_data.php";
+	require_once "apizr.php";
 	
-	$twitter_feed = new API_widget_data(array(
+	$twitter_feed = new APIzr(array(
 			"twitter" => array(
 				"username" => "twitterapi",
 				"number_of_tweets" => 1
