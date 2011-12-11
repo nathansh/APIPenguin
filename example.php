@@ -10,21 +10,22 @@
 	
 	<?php
 
-	require_once("apizr.php");
+	require_once("apipenguin.php");
 
 	echo "<h2>Twitter JSON</h2>";
-	$twitter = new APIzr(array(
+	$twitter = new APIPenguin(array(
 		"api_url" => "https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=false&screen_name=twitterapi&count=1",
 		));
 	$twitter->print_data();
 	
 	echo "<h2>Twitter XML</h2>";
-	$twitter_xml = new APIzr(array(
+	$twitter_xml = new APIPenguin(array(
 		"api_url" => "https://api.twitter.com/1/statuses/user_timeline.xml?include_entities=true&include_rts=false&screen_name=twitterapi&count=1",
 		));
+	$twitter_xml->print_data();
 	
 	echo "<h2>Twitter User Feed</h2>";
-	$twitter_feed = new APIzr(array(
+	$twitter_feed = new APIPenguin(array(
 		"twitter" => array(
 				"username" => "nathanshubert",
 //				"number_of_tweets" => 2,
@@ -36,7 +37,7 @@
 		));
 	
 	echo "<h2>Flickr</h2>";
-	$flickr = new APIzr(array(
+	$flickr = new APIPenguin(array(
 		"api_url" => "http://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=7e821c3288da47d4585889fbd53b0bca&format=rest&api_sig=9ff1b26b7d1eb1e47bce048f6e01c178",
 		"data_type" => "xml"
 		));

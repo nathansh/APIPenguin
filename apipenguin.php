@@ -1,9 +1,10 @@
 <?php
 
-	/* APIzr
+	/* APIPenguin
 	
-		Written by: Nathan Shubert-Harbison, LiFT Studios
+		Written by: Nathan Shubert-Harbison, Little Penguin Studios
 		Created: November, 14th, 2011
+		Last Update: December 10, 2011
 		Written for PHP version: 5.3.6
 		
 		For usage instructions see README.md
@@ -11,7 +12,7 @@
 	*/
 
 
-class APIzr {
+class APIPenguin {
 
 	public $cache_dir = "cache";
 	public $cache_file;
@@ -30,7 +31,7 @@ class APIzr {
 	private $api_data_contents;
 	private $args;
 
-	function APIzr($args = "") {
+	function APIPenguin($args = "") {
 		
 		if ( $args ) {
 		
