@@ -10,7 +10,7 @@
 	
 	<?php
 
-	require_once("apipenguin.php");
+	require_once("class.apipenguin.php");
 
 	echo "<h2>Twitter JSON</h2>";
 	$twitter = new APIPenguin(array(

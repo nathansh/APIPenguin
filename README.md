@@ -8,7 +8,7 @@ To use this class, simply create a new instance and pass in an argument list. Th
 
 ### Example
 
-	require_once "apipenguin.php";
+	require_once "class.apipenguin.php";
 
 	$twitter = new APIPenguin(array(
 		"api_url" => "https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=false&screen_name=twitterapi&count=1",
@@ -40,7 +40,7 @@ I've found that the most frequent use of an api call for a widget is for a Twitt
 
 Example:
 
-	require_once "apipenguin.php";
+	require_once "class.apipenguin.php";
 	
 	$twitter_feed = new APIPenguin(array(
 			"twitter" => array(
