@@ -6,6 +6,8 @@
 		Created: November, 14th, 2011
 		Last Update: December 10, 2011
 		Written for PHP version: 5.3.6
+
+		This script has no license attached. Do with it what you will.
 		
 		For usage instructions see README.md
 
