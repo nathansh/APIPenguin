@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8">
+		<meta charset='utf-8'>
 		<title>Class For Making API Calls</title>
 	</head>
 	<body>
@@ -10,37 +10,25 @@
 	
 	<?php
 
-	require_once("class.apipenguin.php");
+	require_once('APIPenguin.class.php');
 
-	echo "<h2>Twitter JSON</h2>";
-	$twitter = new APIPenguin(array(
-		"api_url" => "https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=false&screen_name=twitterapi&count=1",
-		));
-	$twitter->print_data();
-	
-	echo "<h2>Twitter XML</h2>";
-	$twitter_xml = new APIPenguin(array(
-		"api_url" => "https://api.twitter.com/1/statuses/user_timeline.xml?include_entities=true&include_rts=false&screen_name=twitterapi&count=1",
-		));
-	$twitter_xml->print_data();
-	
-	echo "<h2>Twitter User Feed</h2>";
-	$twitter_feed = new APIPenguin(array(
-		"twitter" => array(
-				"username" => "nathanshubert",
-//				"number_of_tweets" => 2,
-//				"clickable_links" => false,
-//				"display_tweets" => false,
-//				"twitter_link" => false
-			)
+	// JSON Example
+	echo '<h2>Example:</h2>';
+	echo '<p>URL: <code>https://www.googleapis.com/books/v1/volumes?q=isbn:0747532699</code></p>';
+	$books = new APIPenguin(array(
+		'api_url' => 'https://www.googleapis.com/books/v1/volumes?q=isbn:0747532699'
+	));
+	$books->print_data();
 
-		));
-	
-	echo "<h2>Flickr</h2>";
-	$flickr = new APIPenguin(array(
-		"api_url" => "http://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=7e821c3288da47d4585889fbd53b0bca&format=rest&api_sig=9ff1b26b7d1eb1e47bce048f6e01c178",
-		"data_type" => "xml"
-		));
+	// XML Example
+	echo '<h2>Example 2:</h2>';
+	echo '<p>URL: <code>http://musicbrainz.org/ws/2/discid/I5l9cCSFccLKFEKS.7wqSZAorPU-?toc=1+12+267257+150+22767+41887+58317+72102+91375+104652+115380+132165+143932+159870+174597</code></p>';
+	$musicbrainz = new APIPenguin(array(
+		'api_url' => 'http://musicbrainz.org/ws/2/discid/I5l9cCSFccLKFEKS.7wqSZAorPU-?toc=1+12+267257+150+22767+41887+58317+72102+91375+104652+115380+132165+143932+159870+174597'
+	));
+	echo '<pre>';
+		print_r($musicbrainz->data);
+	echo '</pre>';
 
 	?>
 	
