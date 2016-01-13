@@ -18,7 +18,9 @@ Your `$book->data` property now contains the data from your API call. If you wan
 
 The following other properties can also be used in your property list.
 
-### Properties
+### Arguments
+
+Arguments are entered in an associative array.
 
 * `api_url` *required* - The actual API request url
 * `cache_dir` - Location where the cache is stored
