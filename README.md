@@ -6,10 +6,10 @@ To use this class, simply create a new instance and pass in an argument list. Th
 
 ### Example
 
-	require_once "APIPenguin.class.php";
+	require_once 'APIPenguin.class.php';
 
 	$book = new APIPenguin(array(
-		'api_url' => "https://www.googleapis.com/books/v1/volumes?q=isbn:0747532699
+		'api_url' => 'https://www.googleapis.com/books/v1/volumes?q=isbn:0747532699'
 	));
 
 Your `$book->data` property now contains the data from your API call. If you want to print out the data for exploration you can use the `print_data()` method.
