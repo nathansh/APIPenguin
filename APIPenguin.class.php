@@ -69,12 +69,13 @@ class APIPenguin {
 			
 			$cache_file = $this->cache_dir . "/" . $this->cache_file . ".txt";
 			if ( !file_exists($cache_file) ) {
-				if ( !fopen($cache_file, "w+") ) {
+				if ( ! $file_pointer = fopen($cache_file, "w+") ) {
 					die(
 						'<h3>APIPenguin error:</h3>
 						<p>The cache file <code>' . $cache_file . '</code> is not writable :( You probably need to make the <code>' . $this->cache_dir . '</code> directory writable.</p>'
 						);
 				}
+				fclose($file_pointer);
 			}
 		
 			// Use the cache file if it's usable, or otherwise hit the API
