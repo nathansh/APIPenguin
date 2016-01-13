@@ -23,10 +23,10 @@ The following other properties can also be used in your property list.
 Arguments are entered in an associative array.
 
 * `api_url` *required* - The actual API request url
-* `cache_dir` - Location where the cache is stored
+* `cache_dir` - Defaut: `cache`. Location where the cache is stored
 * `cache_file` - Name of cache file. If using multiple instances, set a unique cache file name. Default is the domain name of the API call.
-* `cache_time` - Defaults to check API hourly.
-* `data_type` - If an XML or JSON data type isn't detected, you can manually set it
+* `cache_time` - Default: `3600` (hourly). Cache expiration time in seconds.
+* `data_type` - Default: `json`. If an XML or JSON data type isn't detected, you can manually set it
 
 Default values:
 
