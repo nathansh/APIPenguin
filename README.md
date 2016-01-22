@@ -27,6 +27,7 @@ Arguments are entered in an associative array.
 * `cache_file` - Name of cache file. If using multiple instances, set a unique cache file name. Default is the domain name of the API call.
 * `cache_time` - Default: `3600` (hourly). Cache expiration time in seconds.
 * `data_type` - Default: `json`. If an XML or JSON data type isn't detected, you can manually set it
+* `manual_recache` - Default: `false`. You can bypass cache expiration and use the `refresh_cache()` with cron or something so that the no user has to wait for the API to be hit again.
 
 Default values:
 
@@ -35,6 +36,7 @@ Default values:
 				
 ### Methods
 * `print_data()` - Simply does a print_r with pre tags. Usefull for exploring your data object.
+* `refresh_cache()` - Manually expire the cache and update it with fresh data from the API.
 
 ## Data Types
 

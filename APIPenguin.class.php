@@ -20,7 +20,9 @@ class APIPenguin {
 	public $api_url = '';
 	public $api_data;
 	public $data_type = 'json';
+	public $manual_recache = false;
 
+	private $cache;
 	private $api_data_contents;
 	private $args;
 
@@ -37,7 +39,8 @@ class APIPenguin {
 				'cache_dir',
 				'cache_file',
 				'cache_time',
-				'data_type'
+				'data_type',
+				'manual_recache'
 			);
 
 			foreach ( $args_to_check as $arg ) {
@@ -67,35 +70,32 @@ class APIPenguin {
 				$this->cache_file = rtrim($this->cache_file, ".com");
 			}
 			
-			$cache_file = $this->cache_dir . "/" . $this->cache_file . ".txt";
-			if ( !file_exists($cache_file) ) {
-				if ( ! $file_pointer = fopen($cache_file, "w+") ) {
+			$this->cache = $this->cache_dir . "/" . $this->cache_file . ".txt";
+			if ( !file_exists($this->cache) ) {
+				if ( ! $file_pointer = fopen($this->cache, "w+") ) {
 					die(
 						'<h3>APIPenguin error:</h3>
-						<p>The cache file <code>' . $cache_file . '</code> is not writable :( You probably need to make the <code>' . $this->cache_dir . '</code> directory writable.</p>'
+						<p>The cache file <code>' . $this->cache . '</code> is not writable :( You probably need to make the <code>' . $this->cache_dir . '</code> directory writable.</p>'
 						);
 				}
 				fclose($file_pointer);
 			}
 		
 			// Use the cache file if it's usable, or otherwise hit the API
-			$use_cache = $this->should_use_cache_file($cache_file);
+			$use_cache = $this->should_use_cache_file($this->cache);
 
 			if ( $use_cache ) {
 
 				// Get cache file contents
-				$this->data = file_get_contents($cache_file);
+				$this->data = file_get_contents($this->cache);
 
 				// Set the data type
 				$this->set_data_type_from_cache();
 
 			} else {
 
-				// Set the return from the API as the data to use
-				$this->data = $this->curl_get_contents($this->api_url);
-
-				// Store the API's data for next time
-				file_put_contents($cache_file, $this->data);
+				// Hit the api
+				$this->hit_api();
 
 			}
 
@@ -131,6 +131,12 @@ class APIPenguin {
 	 */
 	private function should_use_cache_file($file) {
 
+		// First, manual mode
+		if ( $this->manual_recache ) {
+			return file_exists($file) && file_get_contents($file) != '';
+		}
+
+		// Is the cache file still valid
 		$cache_time_dif = @(time() - filemtime($file));
 		return file_exists($file) && $cache_time_dif < $this->cache_time && file_get_contents($file) != '';
 
@@ -156,6 +162,33 @@ class APIPenguin {
 		if ( isset($this->args[$arg]) ) {
 			$this->$arg = $this->args[$arg];
 		}
+	}
+
+
+	/**
+	 * Get data from the API and cache it
+	 * 
+	 */
+	private function hit_api() {
+
+		// Set the return from the API as the data to use
+		$this->data = $this->curl_get_contents($this->api_url);
+
+		// Store the API's data for next time
+		file_put_contents($this->cache, $this->data);
+
+	}
+
+
+	/**
+	 * Manually refresh the cache
+	 * 
+	 */
+	function refresh_cache() {
+
+		// Hit the API
+		$this->hit_api();
+
 	}
 
 	
